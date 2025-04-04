@@ -1,0 +1,11 @@
+# Ferme tout les conteneurs
+docker compose down
+
+# Remettre à jour les images
+docker compose build
+
+# Lance ou reconstruit les conteneurs
+docker-compose up -d
+
+# Supprime les conteneurs et volume
+docker compose down -v

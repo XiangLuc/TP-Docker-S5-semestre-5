@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paga principale</title>
+</head>
+<body>
+    <p> Si le back marche le message va s'affiché :</p>
+
+    <div id="message">
+
+    </div>
+
+    <script>
+        fetch('http://localhost:5000/message/')
+        .then(response => response.json())
+        .then(data => {
+            let formattedMessages = data.map(message => message + '<br>').join('');
+            document.getElementById('message').innerHTML = formattedMessages;
+        })
+        .catch(error => console.error('Error:', error));
+    </script>
+    
+</body>
+</html>

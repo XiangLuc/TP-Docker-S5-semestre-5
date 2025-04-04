@@ -1,0 +1,48 @@
+services:
+  proxy:
+    build: ./proxy
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+    networks:
+      - frontend
+
+  app:
+    build: ./app
+    depends_on:
+      - db
+    secrets:
+      - db_password  
+    volumes:
+      - ./logs:/logs
+    networks: 
+      - frontend
+      - backend
+
+  db:
+    image: postgres:latest
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./script.sql:/docker-entrypoint-initdb.d/script.sql
+    environment:
+      POSTGRES_USER: luc
+      POSTGRES_DB: tp
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password  
+    secrets:
+      - db_password  
+    networks:
+      - backend
+
+networks:
+  frontend:
+    driver: bridge  
+  backend:
+    driver: bridge
+
+secrets:
+  db_password:
+    file: ./db_password.txt
+
+volumes:
+  db_data: {}
